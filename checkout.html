@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CiberTech - Checkout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">CT</div>
+        <div>
+          <a href="index.html"><button class="icon-btn" style="font-weight:800;">CiberTech</button></a>
+          <div style="font-size:12px;color:var(--muted)">Hardware • Periféricos • Promoções</div>
+        </div>
+      </div>
+
+      <div class="search" role="search" aria-label="Busca de produtos">
+        <input type="search" placeholder="Procure por placa, fonte, gabinete, monitor..." aria-label="buscar produto" />
+        <button aria-label="Pesquisar">Buscar</button>
+      </div>
+
+      <div class="actions">
+        <a href="carrinho.html"><button class="icon-btn" aria-label="Carrinho">🛒 Carrinho</button></a>
+        <a href="#"><button class="icon-btn" aria-label="Registrar">Registrar</button></a>
+        <a href="#"><button class="icon-btn" aria-label="Login">Entrar</button></a>
+        <a href="#"><button class="icon-btn" aria-label="Perfil">👤</button></a>
+      </div>
+    </div>
+
+   <div class="container" style="padding-bottom:10px">
+      <nav style="display:flex;gap:12px;align-items:center">
+        <a href="#">Placas-mãe</a>
+        <a href="#">Processadores</a>
+        <a href="#">Placas de vídeo</a>
+        <a href="#">Memória RAM</a>
+        <a href="#">SSD / HD</a>
+        <a href="#">Fontes</a>
+        <a href="#">Monitores</a>
+        <a href="#">Periféricos</a>
+      </nav>
+    </div>
+  </header>
+
+<main class="container">
+  <h1 style="margin-bottom:20px;">Checkout</h1>
+  <div class="main">
+    <div class="sidebar">
+      <div class="filter">
+        <h2 style="margin-top:0;">Resumo do Pedido</h2>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span>RTX 4070 - 12GB</span> <span>R$ 3.499,00</span>
+          </li>
+          <li style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span>SSD NVMe 1TB - Leitura 7000MB/s</span> <span>R$ 449,00</span>
+          </li>
+          <li style="display:flex; justify-content:space-between; font-weight:800; margin-top:12px;">
+            <span>Total</span> <span>R$ 3.948,00</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <h2>Informações de Pagamento</h2>
+      <form>
+        <div style="margin-bottom:12px;">
+          <label for="name">Nome no cartão</label><br>
+          <input type="text" id="name" name="name" placeholder="Nome completo" style="width:100%; padding:10px; border-radius:8px; border:0;">
+        </div>
+        <div style="margin-bottom:12px;">
+          <label for="card">Número do cartão</label><br>
+          <input type="text" id="card" name="card" placeholder="0000 0000 0000 0000" style="width:100%; padding:10px; border-radius:8px; border:0;">
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label for="expiry">Validade</label><br>
+            <input type="text" id="expiry" name="expiry" placeholder="MM/AA" style="width:100%; padding:10px; border-radius:8px; border:0;">
+          </div>
+          <div style="flex:1;">
+            <label for="cvv">CVV</label><br>
+            <input type="text" id="cvv" name="cvv" placeholder="123" style="width:100%; padding:10px; border-radius:8px; border:0;">
+          </div>
+        </div>
+        <button type="submit" class="cta" style="width:100%;">Finalizar Compra</button>
+      </form>
+    </div>
+
+     <div style="margin-bottom:12px;">
+          <label for="installments">Número de parcelas</label><br>
+          <select name="installments" style="width:100%; padding:10px; border-radius:8px; border:0;">
+            <option value="1">1x (à vista)</option>
+            <option value="2">2x</option>
+            <option value="3">3x</option>
+            <option value="4">4x</option>
+            <option value="5">5x</option>
+            <option value="6">6x</option>
+            <option value="7">7x</option>
+            <option value="8">8x</option>
+            <option value="9">9x</option>
+            <option value="10">10x</option>
+            <option value="11">11x</option>
+            <option value="12">12x</option>
+          </select>
+        </div>
+  </div>
+</main>
+
+<footer style="margin-top:18px">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-left">
+          <div style="font-weight:800">CiberTech</div>
+          <div style="color:var(--muted)">© 2025 • Todos os direitos reservados</div>
+        </div>
+        <div class="footer-right" style="color:var(--muted)">Pagamento seguro • Parcelamos em até 12x</div>
+      </div>
+    </div>
+</footer>
+
+</body>
+</html>

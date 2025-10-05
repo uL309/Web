@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CiberTech - Hardware & Periféricos</title>
+  <meta name="description" content="Loja online de hardware, componentes e periféricos - ofertas diárias e frete rápido." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">CT</div>
+        <div>
+          <a href="index.html"><button class="icon-btn" style="font-weight:800;">CiberTech</button></a>
+          <div style="font-size:12px;color:var(--muted)">Hardware • Periféricos • Promoções</div>
+        </div>
+      </div>
+
+      <div class="search" role="search" aria-label="Busca de produtos">
+        <input type="search" placeholder="Procure por placa, fonte, gabinete, monitor..." aria-label="buscar produto" />
+        <button aria-label="Pesquisar">Buscar</button>
+      </div>
+
+      <div class="actions">
+        <a href="carrinho.html"><button class="icon-btn" aria-label="Carrinho">🛒 Carrinho</button></a>
+        <a href="#"><button class="icon-btn" aria-label="Registrar">Registrar</button></a>
+        <a href="#"><button class="icon-btn" aria-label="Login">Entrar</button></a>
+        <a href="#"><button class="icon-btn" aria-label="Perfil">👤</button></a>
+      </div>
+    </div>
+
+   <div class="container" style="padding-bottom:10px">
+      <nav style="display:flex;gap:12px;align-items:center">
+        <a href="#">Placas-mãe</a>
+        <a href="#">Processadores</a>
+        <a href="#">Placas de vídeo</a>
+        <a href="#">Memória RAM</a>
+        <a href="#">SSD / HD</a>
+        <a href="#">Fontes</a>
+        <a href="#">Monitores</a>
+        <a href="#">Periféricos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <h1>Ofertas imperdíveis — componente certo, preço justo</h1>
+        <p>Frete rápido, garantia e parcelas em até 12x. Confira promoções relâmpago em placas de vídeo e SSDs.</p>
+        <div style="display:flex;gap:12px;align-items:center">
+          <button class="cta">Ver Ofertas</button>
+        </div>
+
+        <div class="categories" aria-hidden="true" style="margin-top:18px">
+          <div class="cat"><strong>GPU</strong><small>Placas de vídeo</small></div>
+          <div class="cat"><strong>CPU</strong><small>Processadores</small></div>
+          <div class="cat"><strong>SSD</strong><small>Armazenamento</small></div>
+          <div class="cat"><strong>RAM</strong><small>Memórias</small></div>
+        </div>
+
+        <div style="margin-top:18px;display:flex;gap:10px;align-items:center">
+          <div style="flex:1;background:linear-gradient(90deg,#05203b,#072034);padding:12px;border-radius:10px">
+            <div style="font-size:13px;color:var(--muted)">ENVIO EXPRESSO</div>
+            <div style="font-weight:800;margin-top:6px">Entregas rápidas em todo PR</div>
+          </div>
+          <div style="width:120px;text-align:center" class="promo">
+            <div style="font-weight:700">30% OFF</div>
+            <div style="font-size:13px;color:var(--muted)">em peças selecionadas</div>
+          </div>
+        </div>
+      </div>
+     
+    </section>
+
+    <section class="main">
+      <div>
+        <h2 style="margin:6px 0 12px;color:#cfe8ff">Destaques</h2>
+        <div class="products" aria-live="polite">
+
+        <article class="card" aria-label="Placa de Vídeo RTX 4070">
+          <img src="https://http.cat/images/402.jpg" alt="Placa de vídeo - render" />
+          <a href="produto1.html"><button class="icon-btn">Placa de Vídeo RTX 4070 - 12GB</button></a>
+          <div><span class="price">R$ 3.499</span><span class="old">R$ 4.199</span></div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px">Em estoque • Garantia 5 anos</div>
+          <button class="buy">Adicionar ao carrinho</button>
+        </article>
+
+        <article class="card" aria-label="SSD NVMe 1TB">
+          <img src="https://http.cat/images/424.jpg" alt="SSD NVMe" />
+          <a href="#"><button class="icon-btn">SSD NVMe 1TB - Leitura 7000MB/s</button></a>
+          <div><span class="price">R$ 449</span><span class="old">R$ 549</span></div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px">Em estoque • Garantia 1 ano</div>
+          <button class="buy">Adicionar ao carrinho</button>
+        </article>
+
+        <article class="card" aria-label="Processador Ryzen 7">
+          <img src="https://http.cat/images/101.jpg" alt="Processador" />
+          <a href="#"><button class="icon-btn">AMD Ryzen 7 7800X3D - AM5</button></a>
+          <div><span class="price">R$ 2.199</span></div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px">Em estoque • Garantia 3 anos</div>
+          <button class="buy">Adicionar ao carrinho</button>
+        </article>
+
+        <article class="card" aria-label="Fonte 750W Modular">
+          <img src="https://http.cat/images/400.jpg" alt="Fonte ATX" />
+          <a href="#"><button class="icon-btn">Fonte 750W 80+ Gold - Modular</button></a>
+          <div><span class="price">R$ 649</span></div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px">Em estoque • Garantia 3 anos</div>
+          <button class="buy">Adicionar ao carrinho</button>
+        </article>
+
+        <article class="card" aria-label="Monitor">
+          <img src="https://http.cat/images/201.jpg" alt="Monitor" />
+          <a href="#"><button class="icon-btn">Monitor 27" 144Hz QHD</button></a>
+          <div><span class="price">R$ 1.399</span></div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px">Em estoque • Garantia 2 anos</div>
+          <button class="buy">Adicionar ao carrinho</button>
+        </article>
+
+        <article class="card" aria-label="Placa-mãe">
+          <img src="https://http.cat/images/200.jpg" alt="Placa-mãe" />
+          <a href="#"><button class="icon-btn">Placa-Mãe A520M - AMD AM4</button></a>
+          <div><span class="price">R$ 799</span></div>
+          <div style="font-size:13px;color:var(--muted);margin-top:6px">Em estoque • Garantia 3 anos</div>
+          <button class="buy">Adicionar ao carrinho</button>
+        </article>
+
+        </div>
+      </div>
+
+      <aside class="sidebar" aria-label="Filtros">
+        <div class="filter">
+          <h4 style="margin:0 0 8px">Filtrar por preço</h4>
+          <label style="font-size:13px;color:var(--muted);display:block">0 — 10000</label>
+          <input type="range" min="0" max="10000" value="2000" style="width:100%" />
+        </div>
+
+        <div class="filter">
+          <h4 style="margin:0 0 8px">Categorias</h4>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <label><input type="checkbox" /> Placas de vídeo</label>
+            <label><input type="checkbox" /> Processadores</label>
+            <label><input type="checkbox" /> Memórias</label>
+            <label><input type="checkbox" /> Fontes</label>
+            <label><input type="checkbox" /> Placas-mãe</label>
+            <label><input type="checkbox" /> SSD</label>
+            <label><input type="checkbox" /> HD</label>
+            <label><input type="checkbox" /> Monitores</label>
+            <label><input type="checkbox" /> Periféricos</label>
+          </div>
+        </div>
+      </aside>
+    </section>
+    
+  </main>
+
+  <footer style="margin-top:18px">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-left">
+          <div style="font-weight:800">CiberTech</div>
+          <div style="color:var(--muted)">© 2025 • Todos os direitos reservados</div>
+        </div>
+        <div class="footer-right" style="color:var(--muted)">Pagamento seguro • Parcelamos em até 12x</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.buy').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        btn.textContent = 'Adicionado ✓';
+        btn.disabled = true;
+        btn.style.opacity = '0.9';
+        setTimeout(()=>{btn.textContent = 'Adicionar ao carrinho';btn.disabled=false;btn.style.opacity='1'},2000);
+      });
+    });
+  </script>
+</body>
+</html>
