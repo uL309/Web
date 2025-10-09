@@ -49,7 +49,8 @@
 <main class="container" style="max-width: 500px; margin-top: 48px;">
   <div class="hero-card">
     <h1 style="text-align: center; margin-bottom: 24px;">Acessar sua Conta</h1>
-    <form>
+    <form id="login-form">
+      <div id="login-error" role="alert" style="display:none; margin-bottom:12px; color:#ff6b6b; font-weight:600;"></div>
       <div style="margin-bottom:16px;">
         <label for="email" style="display: block; margin-bottom: 6px;">Email</label>
         <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" required style="width:100%; padding:12px; border-radius:8px; border:0; background: #0b1020; color: #e6eef8;">
@@ -82,5 +83,6 @@
     </div>
 </footer>
 
+<script src="js/auth.js"></script>
 </body>
 </html>
