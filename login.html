@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CiberTech - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">CT</div>
+        <div>
+          <a href="index.html"><button class="icon-btn" style="font-weight:800;">CiberTech</button></a>
+          <div style="font-size:12px;color:var(--muted)">Hardware • Periféricos • Promoções</div>
+        </div>
+      </div>
+
+      <div class="search" role="search" aria-label="Busca de produtos">
+        <input type="search" placeholder="Procure por placa, fonte, gabinete, monitor..." aria-label="buscar produto" />
+        <button aria-label="Pesquisar">Buscar</button>
+      </div>
+
+      <div class="actions">
+        <a href="carrinho.html"><button class="icon-btn" aria-label="Carrinho">🛒 Carrinho</button></a>
+        <a href="registro_cliente.html"><button class="icon-btn" aria-label="Registrar">Registrar</button></a>
+        <a href="login.html"><button class="icon-btn" aria-label="Login">Entrar</button></a>
+        <a href="#"><button class="icon-btn" aria-label="Perfil">👤</button></a>
+      </div>
+    </div>
+
+   <div class="container" style="padding-bottom:10px">
+      <nav style="display:flex;gap:12px;align-items:center">
+        <a href="#">Placas-mãe</a>
+        <a href="#">Processadores</a>
+        <a href="#">Placas de vídeo</a>
+        <a href="#">Memória RAM</a>
+        <a href="#">SSD / HD</a>
+        <a href="#">Fontes</a>
+        <a href="#">Monitores</a>
+        <a href="#">Periféricos</a>
+      </nav>
+    </div>
+  </header>
+
+<main class="container" style="max-width: 500px; margin-top: 48px;">
+  <div class="hero-card">
+    <h1 style="text-align: center; margin-bottom: 24px;">Acessar sua Conta</h1>
+    <form>
+      <div style="margin-bottom:16px;">
+        <label for="email" style="display: block; margin-bottom: 6px;">Email</label>
+        <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" required style="width:100%; padding:12px; border-radius:8px; border:0; background: #0b1020; color: #e6eef8;">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label for="password" style="display: block; margin-bottom: 6px;">Senha</label>
+        <input type="password" id="password" name="password" placeholder="Sua senha" required style="width:100%; padding:12px; border-radius:8px; border:0; background: #0b1020; color: #e6eef8;">
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 24px; font-size: 14px;">
+        <label><input type="checkbox" name="remember"> Lembrar-me</label>
+        <a href="#" style="color: var(--brand);">Esqueceu a senha?</a>
+      </div>
+      <button type="submit" class="cta" style="width:100%;">Entrar</button>
+       <div style="text-align: center; margin-top: 16px; font-size: 14px;">
+        <span>Não tem uma conta? <a href="registro_cliente.html" style="color: var(--brand);">Crie uma agora</a></span>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer style="margin-top:18px; position: absolute; bottom: 0; width: 100%;">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-left">
+          <div style="font-weight:800">CiberTech</div>
+          <div style="color:var(--muted)">© 2025 • Todos os direitos reservados</div>
+        </div>
+        <div class="footer-right" style="color:var(--muted)">Pagamento seguro • Parcelamos em até 12x</div>
+      </div>
+    </div>
+</footer>
+
+</body>
+</html>
