@@ -3,11 +3,14 @@
   --dark: #0f1724;
   --muted: #64748b;
   --card: #ffffff;
-  --glass: rgba(255,255,255,0.06);
+  --glass: rgba(255, 255, 255, 0.06);
   font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   background: #0b1020;
@@ -89,7 +92,7 @@ nav a {
 
 .icon-btn {
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
@@ -103,13 +106,20 @@ nav a {
 }
 
 .hero-card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
   padding: 28px;
   border-radius: 12px;
 }
 
-.hero h1 { font-size: 28px; margin: 0 0 8px; }
-.hero p { margin: 0 0 18px; color: var(--muted); }
+.hero h1 {
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+.hero p {
+  margin: 0 0 18px;
+  color: var(--muted);
+}
 
 .cta {
   background: var(--brand);
@@ -167,7 +177,7 @@ nav a {
   color: #09121a;
   padding: 12px;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
 }
 
 .card img {
@@ -178,10 +188,22 @@ nav a {
   border-radius: 8px;
 }
 
-.card h3 { font-size: 15px; margin: 10px 0 6px; }
+.card h3 {
+  font-size: 15px;
+  margin: 10px 0 6px;
+}
 
-.price { font-weight: 800; color: var(--brand); }
-.old { color: var(--muted); text-decoration: line-through; margin-left: 8px; font-weight: 600; }
+.price {
+  font-weight: 800;
+  color: var(--brand);
+}
+
+.old {
+  color: var(--muted);
+  text-decoration: line-through;
+  margin-left: 8px;
+  font-weight: 600;
+}
 
 .buy {
   margin-top: 10px;
@@ -202,7 +224,7 @@ nav a {
 }
 
 .filter {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   padding: 12px;
   border-radius: 10px;
   margin-bottom: 12px;
@@ -210,7 +232,7 @@ nav a {
 
 .newsletter {
   margin-top: 28px;
-  background: linear-gradient(90deg,#061426,#071727);
+  background: linear-gradient(90deg, #061426, #071727);
   padding: 18px;
   border-radius: 12px;
   display: flex;
@@ -218,7 +240,10 @@ nav a {
   align-items: center;
 }
 
-.newsletter p { margin: 6px 0 0; color: var(--muted); }
+.newsletter p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
 
 .newsletter form {
   display: flex;
@@ -236,5 +261,45 @@ nav a {
 footer {
   padding: 26px 0;
   color: var(--muted);
- 
+
+}
+
+.form {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.input,textarea,select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 0;
+  outline: none;
+}
+
+.button.submit {
+  background: var(--brand);
+  border: 0;
+  color: #061220;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.button.submit:hover {
+  opacity: 0.9;
 }
