@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Registrar Produto • CiberTech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">CT</div>
+        <div>
+          <a href="index.html"><button class="icon-btn" style="font-weight:800;">CiberTech</button></a>
+          <div style="font-size:12px;color:var(--muted)">Hardware • Periféricos • Promoções</div>
+        </div>
+      </div>
+
+      <div class="search" role="search" aria-label="Busca de produtos">
+        <input type="search" placeholder="Procure por placa, fonte, gabinete, monitor..." aria-label="buscar produto" />
+        <button aria-label="Pesquisar">Buscar</button>
+      </div>
+
+      <div class="actions">
+        <a href="carrinho.html"><button class="icon-btn" aria-label="Carrinho">🛒 Carrinho</button></a>
+        <a href="registro_cliente.html"><button class="icon-btn" aria-label="Registrar">Registrar</button></a>
+        <a href="login.html"><button class="icon-btn" aria-label="Login">Entrar</button></a>
+        <a href="#"><button class="icon-btn" aria-label="Perfil">👤</button></a>
+      </div>
+    </div>
+
+   <div class="container" style="padding-bottom:10px">
+      <nav style="display:flex;gap:12px;align-items:center">
+        <a href="#">Placas-mãe</a>
+        <a href="#">Processadores</a>
+        <a href="#">Placas de vídeo</a>
+        <a href="#">Memória RAM</a>
+        <a href="#">SSD / HD</a>
+        <a href="#">Fontes</a>
+        <a href="#">Monitores</a>
+        <a href="#">Periféricos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 style="text-align:center;margin-bottom:20px;">Registro de Produto</h1>
+
+    <form class="form" action="#" method="post">
+      <div>
+        <label for="nome" class="label">Nome</label>
+        <input type="text" id="nome" name="nome" class="input" required maxlength="200">
+      </div>
+
+      <div>
+        <label for="descricao" class="label">Descrição</label>
+        <textarea id="descricao" name="descricao" class="input" required rows="3"></textarea>
+      </div>
+
+      <div>
+        <label for="especificacoes" class="label">Especificações</label>
+        <textarea id="especificacoes" name="especificacoes" class="input" required rows="4"></textarea>
+      </div>
+
+      <div>
+        <label for="fabricante" class="label">Fabricante</label>
+        <input type="text" id="fabricante" name="fabricante" class="input" required maxlength="100">
+      </div>
+
+      <div>
+        <label for="preco" class="label">Preço (R$)</label>
+        <input type="number" id="preco" name="preco" class="input" step="0.01" required>
+      </div>
+
+      <div>
+        <label for="estoque" class="label">Estoque</label>
+        <input type="number" id="estoque" name="estoque" class="input" required min="0">
+      </div>
+
+      <div>
+        <label for="sku" class="label">SKU</label>
+        <input type="text" id="sku" name="sku" class="input" required maxlength="100">
+      </div>
+
+      <div>
+        <label for="imagem" class="label">Imagem (URL)</label>
+        <input type="url" id="imagem" name="imagem" class="input">
+      </div>
+
+      <div>
+        <label for="categoria_id" class="label">Categoria</label>
+        <select id="categoria_id" name="categoria_id" class="input" required>
+          <option value="">Selecione</option>
+          <option value="1">Processador</option>
+          <option value="2">Placa de Vídeo</option>
+          <option value="3">Placa-mãe</option>
+          <option value="4">Fonte</option>
+          <option value="5">Memória RAM</option>
+          <option value="6">SSD / HD</option>
+          <option value="7">Monitores</option>
+          <option value="8">Periféricos</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="fornecedor_id" class="label">Fornecedor</label>
+        <select id="fornecedor_id" name="fornecedor_id" class="input" required>
+          <option value="">Selecione</option>
+          <option value="1">Fornecedor 1</option>
+          <option value="2">Fornecedor 2</option>
+          <option value="3">Fornecedor 3</option>
+        </select>
+      </div>
+
+      <button type="submit" class="button submit">Registrar Produto</button>
+    </form>
+  </main>
+
+  <footer style="margin-top:18px">
+  <div class="container">
+    <div class="footer-content" style="display:flex; justify-content:space-between; align-items:center;">
+      <div class="footer-left">
+        <div style="font-weight:800">CiberTech</div>
+        <div style="color:var(--muted)">© 2025 • Todos os direitos reservados</div>
+      </div>
+      <div class="footer-right" style="display:flex; align-items:center; color:var(--muted); width:100%;">
+        <div>Pagamento seguro • Parcelamos em até 12x</div>
+        <a href="registrar_produto.html" style="margin-left:auto; color:var(--accent); text-decoration:none; font-weight:600;">
+          Registrar produto
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
