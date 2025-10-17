@@ -49,56 +49,49 @@
 
     <h1 style="margin-bottom:24px">Carrinho de Compras</h1>
 
-    <section class="cart-items" style="overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse">
-        <thead>
-          <tr style="border-bottom:2px solid rgba(255,255,255,0.1)">
-            <th style="text-align:left;padding:12px">Produto</th>
-            <th style="padding:12px">Preço Unitário</th>
-            <th style="padding:12px">Quantidade</th>
-            <th style="padding:12px">Subtotal</th>
-            <th style="padding:12px">Remover</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.1)">
-            <td style="padding:12px">RTX 4070 - 12GB</td>
-            <td style="padding:12px">R$ 3.499</td>
-            <td style="padding:12px">
-              <input type="number" value="1" min="1" style="width:60px;padding:4px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:#0b1020;color:#e6eef8">
-            </td>
-            <td style="padding:12px">R$ 3.499</td>
-            <td style="padding:12px"><button class="buy" style="background:#ff3b00">❌</button></td>
-          </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.1)">
-            <td style="padding:12px">SSD NVMe 1TB - Leitura 7000MB/s</td>
-            <td style="padding:12px">R$ 449</td>
-            <td style="padding:12px">
-              <input type="number" value="1" min="1" style="width:60px;padding:4px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:#0b1020;color:#e6eef8">
-            </td>
-            <td style="padding:12px">R$ 449</td>
-            <td style="padding:12px"><button class="buy" style="background:#ff3b00">❌</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+    <div id="cart-loading" style="text-align: center; padding: 60px 0;">
+      <p style="color: var(--muted)">Carregando carrinho...</p>
+    </div>
 
-    <section style="margin-top:24px;max-width:400px">
-      <h2>Resumo do Pedido</h2>
-      <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.1)">
-        <span>Subtotal</span>
-        <span>R$ 4.397</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.1)">
-        <span>Frete</span>
-        <span>R$ 49</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:12px 0;font-weight:800;font-size:18px">
-        <span>Total</span>
-        <span>R$ 4.446</span>
-      </div>
-      <a href="checkout.html"><button class="cta" style="width:100%;margin-top:12px" aria-label="Compra">Finalizar Compra</button></a>
-    </section>
+    <div id="cart-empty" style="display: none; text-align: center; padding: 60px 0;">
+      <p style="color: var(--muted); margin-bottom: 24px;">Seu carrinho está vazio.</p>
+      <a href="index.html"><button class="cta">Continuar Comprando</button></a>
+    </div>
+
+    <div id="cart-content" style="display: none;">
+      <section class="cart-items" style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr style="border-bottom:2px solid rgba(255,255,255,0.1)">
+              <th style="text-align:left;padding:12px">Produto</th>
+              <th style="padding:12px">Preço Unitário</th>
+              <th style="padding:12px">Quantidade</th>
+              <th style="padding:12px">Subtotal</th>
+              <th style="padding:12px">Remover</th>
+            </tr>
+          </thead>
+          <tbody id="cart-items-body">
+          </tbody>
+        </table>
+      </section>
+
+      <section style="margin-top:24px;max-width:400px">
+        <h2>Resumo do Pedido</h2>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.1)">
+          <span>Subtotal</span>
+          <span id="cart-subtotal">R$ 0,00</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.1)">
+          <span>Frete</span>
+          <span id="cart-frete">R$ 0,00</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;font-weight:800;font-size:18px">
+          <span>Total</span>
+          <span id="cart-total">R$ 0,00</span>
+        </div>
+        <a href="checkout.html"><button class="cta" style="width:100%;margin-top:12px" aria-label="Compra">Finalizar Compra</button></a>
+      </section>
+    </div>
 
   </main>
 
@@ -119,11 +112,8 @@
   </div>
 </footer>
 
-  <script>
-    document.querySelectorAll('.cart-items .buy').forEach(btn=>{
-      btn.addEventListener('click',()=> btn.closest('tr').remove());
-    });
-  </script>
+  <script src="js/header.js"></script>
+  <script src="js/cart.js"></script>
 
 </body>
 </html>
