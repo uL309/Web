@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CiberTech - Gerenciar Produtos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">CT</div>
+        <div>
+          <a href="index.html"><button class="icon-btn" style="font-weight:800;">CiberTech</button></a>
+          <div style="font-size:12px;color:var(--muted)">Hardware • Periféricos • Promoções</div>
+        </div>
+      </div>
+
+      <div class="search" role="search" aria-label="Busca de produtos">
+        <input type="search" placeholder="Procure por placa, fonte, gabinete, monitor..." aria-label="buscar produto" />
+        <button aria-label="Pesquisar">Buscar</button>
+      </div>
+
+      <div class="actions">
+        <a href="carrinho.html"><button class="icon-btn" aria-label="Carrinho">🛒 Carrinho</button></a>
+        <a href="pedidos.html"><button class="icon-btn" aria-label="Pedidos">📦 Pedidos</button></a>
+        <a href="admin-produtos.html"><button class="icon-btn" aria-label="Admin" style="color: var(--primary);">⚙️ Admin</button></a>
+        <a href="#"><button class="icon-btn" aria-label="Perfil">👤</button></a>
+      </div>
+    </div>
+
+   <div class="container" style="padding-bottom:10px">
+      <nav style="display:flex;gap:12px;align-items:center">
+        <a href="#">Placas-mãe</a>
+        <a href="#">Processadores</a>
+        <a href="#">Placas de vídeo</a>
+        <a href="#">Memória RAM</a>
+        <a href="#">SSD / HD</a>
+        <a href="#">Fontes</a>
+        <a href="#">Monitores</a>
+        <a href="#">Periféricos</a>
+      </nav>
+    </div>
+  </header>
+
+<main class="container" style="margin-top: 48px; max-width: 800px;">
+  <div style="margin-bottom: 32px;">
+    <h1 style="margin: 0 0 8px 0;">Gerenciar Produtos</h1>
+    <p style="color: var(--muted); margin: 0;">Adicione ou edite produtos da loja</p>
+  </div>
+
+  <div id="access-denied" style="display: none; text-align: center; padding: 60px 0;">
+    <h2 style="color: var(--muted);">⚠️ Acesso Negado</h2>
+    <p style="color: var(--muted); margin-bottom: 24px;">Apenas administradores podem acessar esta página.</p>
+    <a href="index.html"><button class="cta">Voltar para Home</button></a>
+  </div>
+
+  <div id="admin-content" style="display: none;">
+    <div style="background: var(--card-bg); padding: 32px; border-radius: 12px; border: 1px solid var(--border-color);">
+      <h2 style="margin: 0 0 24px 0;">Adicionar Novo Produto</h2>
+      
+      <form id="product-form">
+        <div style="margin-bottom: 16px;">
+          <label for="nome" style="display: block; margin-bottom: 8px; font-weight: 600;">Nome do Produto *</label>
+          <input type="text" id="nome" name="nome" required 
+                 style="width: 100%; padding: 12px; border-radius: 8px; border: 0; background: #0b1020; color: #e6eef8;">
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label for="categoria" style="display: block; margin-bottom: 8px; font-weight: 600;">Categoria</label>
+          <select id="categoria" name="categoria" 
+                  style="width: 100%; padding: 12px; border-radius: 8px; border: 0; background: #0b1020; color: #e6eef8;">
+            <option value="">Selecione uma categoria</option>
+            <option value="Processador">Processador</option>
+            <option value="Placa-mãe">Placa-mãe</option>
+            <option value="Placa de Vídeo">Placa de Vídeo</option>
+            <option value="Memória RAM">Memória RAM</option>
+            <option value="Armazenamento">Armazenamento (SSD/HD)</option>
+            <option value="Fonte">Fonte</option>
+            <option value="Gabinete">Gabinete</option>
+            <option value="Monitor">Monitor</option>
+            <option value="Periférico">Periférico</option>
+            <option value="Cooler">Cooler</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label for="descricao" style="display: block; margin-bottom: 8px; font-weight: 600;">Descrição</label>
+          <textarea id="descricao" name="descricao" rows="3"
+                    style="width: 100%; padding: 12px; border-radius: 8px; border: 0; background: #0b1020; color: #e6eef8; resize: vertical;"></textarea>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label for="especificacoes" style="display: block; margin-bottom: 8px; font-weight: 600;">Especificações</label>
+          <textarea id="especificacoes" name="especificacoes" rows="4" placeholder="Use formato: Chave: Valor | Chave: Valor"
+                    style="width: 100%; padding: 12px; border-radius: 8px; border: 0; background: #0b1020; color: #e6eef8; resize: vertical;"></textarea>
+          <small style="color: var(--muted);">Exemplo: Núcleos: 8 | Threads: 16 | Clock Base: 3.8 GHz</small>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <label for="preco" style="display: block; margin-bottom: 8px; font-weight: 600;">Preço (R$) *</label>
+            <input type="number" id="preco" name="preco" step="0.01" min="0" required
+                   style="width: 100%; padding: 12px; border-radius: 8px; border: 0; background: #0b1020; color: #e6eef8;">
+          </div>
+          <div>
+            <label for="estoque" style="display: block; margin-bottom: 8px; font-weight: 600;">Estoque</label>
+            <input type="number" id="estoque" name="estoque" min="0" value="0"
+                   style="width: 100%; padding: 12px; border-radius: 8px; border: 0; background: #0b1020; color: #e6eef8;">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+          <label for="imagem" style="display: block; margin-bottom: 8px; font-weight: 600;">URL da Imagem</label>
+          <input type="url" id="imagem" name="imagem" placeholder="https://exemplo.com/imagem.jpg"
+                 style="width: 100%; padding: 12px; border-radius: 8px; border: 0; background: #0b1020; color: #e6eef8;">
+        </div>
+
+        <button type="submit" class="cta" style="width: 100%;">Adicionar Produto</button>
+      </form>
+    </div>
+
+    <div style="margin-top: 32px;">
+      <h2 style="margin: 0 0 16px 0;">Produtos Cadastrados</h2>
+      <div id="products-list" style="display: grid; gap: 16px;">
+        <p style="text-align: center; color: var(--muted); padding: 20px;">Carregando produtos...</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer style="margin-top:48px">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-left">
+          <div style="font-weight:800">CiberTech</div>
+          <div style="color:var(--muted)">© 2025 • Todos os direitos reservados</div>
+        </div>
+        <div class="footer-right" style="color:var(--muted)">Pagamento seguro • Parcelamos em até 12x</div>
+      </div>
+    </div>
+</footer>
+
+<script src="js/header.js"></script>
+<script>
+  // Verifica se o usuário é admin
+  async function checkAdminAccess() {
+    try {
+      const res = await fetch('php/auth.php');
+      const data = await res.json();
+      
+      if (!data.success || !data.user || !data.user.is_admin) {
+        document.getElementById('access-denied').style.display = 'block';
+        return false;
+      }
+      
+      document.getElementById('admin-content').style.display = 'block';
+      loadProducts();
+      return true;
+      
+    } catch (err) {
+      console.error('Erro ao verificar acesso:', err);
+      document.getElementById('access-denied').style.display = 'block';
+      return false;
+    }
+  }
+
+  // Carrega lista de produtos
+  async function loadProducts() {
+    try {
+      const res = await fetch('php/products.php?limit=100');
+      const data = await res.json();
+      
+      if (!data.success || !data.products || data.products.length === 0) {
+        document.getElementById('products-list').innerHTML = 
+          '<p style="text-align: center; color: var(--muted); padding: 20px;">Nenhum produto cadastrado.</p>';
+        return;
+      }
+      
+      renderProducts(data.products);
+      
+    } catch (err) {
+      console.error('Erro ao carregar produtos:', err);
+    }
+  }
+
+  // Renderiza lista de produtos
+  function renderProducts(products) {
+    const container = document.getElementById('products-list');
+    
+    container.innerHTML = products.map(p => `
+      <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; gap: 16px;">
+        <img src="${p.imagem || 'https://via.placeholder.com/80'}" 
+             alt="${p.nome}"
+             style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; background: #0b1020;">
+        <div style="flex: 1;">
+          <h3 style="margin: 0 0 4px 0;">${p.nome}</h3>
+          <p style="margin: 0 0 4px 0; color: var(--muted); font-size: 14px;">${p.categoria || 'Sem categoria'}</p>
+          <p style="margin: 0; color: var(--primary); font-weight: 700;">R$ ${parseFloat(p.preco).toFixed(2).replace('.', ',')}</p>
+          <p style="margin: 4px 0 0 0; color: var(--muted); font-size: 13px;">Estoque: ${p.estoque} unidades</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button onclick="deleteProduct(${p.produto_id})" 
+                  style="padding: 8px 16px; background: #ef4444; color: white; border: 0; border-radius: 6px; cursor: pointer; font-weight: 600;">
+            Excluir
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Adiciona produto
+  async function handleSubmit(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Salvando...';
+    
+    try {
+      const formData = {
+        nome: form.nome.value,
+        categoria: form.categoria.value,
+        descricao: form.descricao.value,
+        especificacoes: form.especificacoes.value,
+        preco: parseFloat(form.preco.value),
+        estoque: parseInt(form.estoque.value) || 0,
+        imagem: form.imagem.value
+      };
+      
+      const res = await fetch('php/admin_products.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      const data = await res.json();
+      
+      if (!data.success) {
+        alert(data.error || 'Erro ao adicionar produto');
+        return;
+      }
+      
+      alert('Produto adicionado com sucesso!');
+      form.reset();
+      loadProducts();
+      
+    } catch (err) {
+      console.error('Erro:', err);
+      alert('Erro ao adicionar produto. Tente novamente.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Adicionar Produto';
+    }
+  }
+
+  // Deleta produto
+  async function deleteProduct(produtoId) {
+    if (!confirm('Tem certeza que deseja excluir este produto?')) {
+      return;
+    }
+    
+    try {
+      const res = await fetch('php/admin_products.php', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ produto_id: produtoId })
+      });
+      
+      const data = await res.json();
+      
+      if (!data.success) {
+        alert(data.error || 'Erro ao excluir produto');
+        return;
+      }
+      
+      alert('Produto excluído com sucesso!');
+      loadProducts();
+      
+    } catch (err) {
+      console.error('Erro:', err);
+      alert('Erro ao excluir produto. Tente novamente.');
+    }
+  }
+
+  // Event listeners
+  document.getElementById('product-form').addEventListener('submit', handleSubmit);
+  
+  // Inicializa
+  document.addEventListener('DOMContentLoaded', checkAdminAccess);
+</script>
+
+</body>
+</html>

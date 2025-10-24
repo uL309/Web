@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CiberTech - Detalhes do Pedido</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">CT</div>
+        <div>
+          <a href="index.html"><button class="icon-btn" style="font-weight:800;">CiberTech</button></a>
+          <div style="font-size:12px;color:var(--muted)">Hardware • Periféricos • Promoções</div>
+        </div>
+      </div>
+
+      <div class="search" role="search" aria-label="Busca de produtos">
+        <input type="search" placeholder="Procure por placa, fonte, gabinete, monitor..." aria-label="buscar produto" />
+        <button aria-label="Pesquisar">Buscar</button>
+      </div>
+
+      <div class="actions">
+        <a href="carrinho.html"><button class="icon-btn" aria-label="Carrinho">🛒 Carrinho</button></a>
+        <a href="registro_cliente.html"><button class="icon-btn" aria-label="Registrar">Registrar</button></a>
+        <a href="login.html"><button class="icon-btn" aria-label="Login">Entrar</button></a>
+        <a href="#"><button class="icon-btn" aria-label="Perfil">👤</button></a>
+      </div>
+    </div>
+
+   <div class="container" style="padding-bottom:10px">
+      <nav style="display:flex;gap:12px;align-items:center">
+        <a href="#">Placas-mãe</a>
+        <a href="#">Processadores</a>
+        <a href="#">Placas de vídeo</a>
+        <a href="#">Memória RAM</a>
+        <a href="#">SSD / HD</a>
+        <a href="#">Fontes</a>
+        <a href="#">Monitores</a>
+        <a href="#">Periféricos</a>
+      </nav>
+    </div>
+  </header>
+
+<main class="container" style="margin-top: 48px;">
+  <div style="margin-bottom: 24px;">
+    <a href="pedidos.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">← Voltar aos Pedidos</a>
+  </div>
+
+  <div id="loading" style="text-align: center; padding: 60px 0;">
+    <p style="color: var(--muted)">Carregando detalhes do pedido...</p>
+  </div>
+  
+  <div id="order-details" style="display: none;"></div>
+  
+  <div id="error-message" style="display: none; text-align: center; padding: 60px 0;">
+    <p style="color: var(--muted); margin-bottom: 24px;">Pedido não encontrado.</p>
+    <a href="pedidos.html"><button class="cta">Ver Todos os Pedidos</button></a>
+  </div>
+</main>
+
+<footer style="margin-top:48px">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-left">
+          <div style="font-weight:800">CiberTech</div>
+          <div style="color:var(--muted)">© 2025 • Todos os direitos reservados</div>
+        </div>
+        <div class="footer-right" style="color:var(--muted)">Pagamento seguro • Parcelamos em até 12x</div>
+      </div>
+    </div>
+</footer>
+
+<script src="js/header.js"></script>
+<script>
+  async function loadOrderDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('id');
+    
+    if (!orderId) {
+      showError();
+      return;
+    }
+    
+    try {
+      const res = await fetch(`php/orders.php?id=${orderId}`);
+      const data = await res.json();
+      
+      if (!data.success || !data.order) {
+        showError();
+        return;
+      }
+      
+      renderOrderDetails(data.order, data.items);
+      
+    } catch (err) {
+      console.error('Erro ao carregar pedido:', err);
+      showError();
+    }
+  }
+  
+  function showError() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('error-message').style.display = 'block';
+  }
+  
+  function formatDate(dateStr) {
+    if (!dateStr) return '-';
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('pt-BR', { 
+      day: '2-digit', 
+      month: '2-digit', 
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+  
+  function formatPrice(price) {
+    return parseFloat(price).toFixed(2).replace('.', ',');
+  }
+  
+  function getStatusBadge(status) {
+    const statusMap = {
+      'Aguardando Pagamento': { color: '#fbbf24', text: 'Aguardando Pagamento' },
+      'Pagamento Confirmado': { color: '#34d399', text: 'Pagamento Confirmado' },
+      'Em Processamento': { color: '#60a5fa', text: 'Em Processamento' },
+      'Enviado': { color: '#818cf8', text: 'Enviado' },
+      'Entregue': { color: '#10b981', text: 'Entregue' },
+      'Cancelado': { color: '#ef4444', text: 'Cancelado' }
+    };
+    
+    const statusInfo = statusMap[status] || { color: '#6b7280', text: status };
+    return `<span style="background: ${statusInfo.color}; color: #000; padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 600;">${statusInfo.text}</span>`;
+  }
+  
+  function getPaymentMethodText(method) {
+    const methodMap = {
+      'credito': 'Cartão de Crédito',
+      'debito': 'Cartão de Débito',
+      'pix': 'PIX',
+      'boleto': 'Boleto Bancário'
+    };
+    return methodMap[method] || method;
+  }
+  
+  function renderOrderDetails(order, items) {
+    const container = document.getElementById('order-details');
+    
+    const subtotal = order.valor_total - order.frete;
+    
+    container.innerHTML = `
+      <div style="margin-bottom: 32px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h1 style="margin: 0;">Pedido #${order.pedido_id}</h1>
+          ${getStatusBadge(order.status)}
+        </div>
+        <p style="color: var(--muted);">Realizado em ${formatDate(order.data_pedido)}</p>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+        <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+          <h3 style="margin: 0 0 8px 0; font-size: 14px; color: var(--muted);">Forma de Pagamento</h3>
+          <p style="margin: 0; font-weight: 600;">${getPaymentMethodText(order.forma_pagamento)}</p>
+          ${order.parcelas > 1 ? `<p style="margin: 4px 0 0 0; color: var(--muted); font-size: 14px;">${order.parcelas}x de R$ ${formatPrice(order.valor_total / order.parcelas)}</p>` : ''}
+          <p style="margin: 8px 0 0 0; font-size: 13px; color: var(--muted);">Status: ${order.status_pagamento || 'Pendente'}</p>
+        </div>
+        
+        <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+          <h3 style="margin: 0 0 8px 0; font-size: 14px; color: var(--muted);">Entrega</h3>
+          <p style="margin: 0; font-weight: 600;">${order.status_entrega || 'Aguardando Processamento'}</p>
+          ${order.codigo_rastreamento ? `<p style="margin: 4px 0 0 0; color: var(--muted); font-size: 14px;">Rastreio: ${order.codigo_rastreamento}</p>` : ''}
+          ${order.transportadora ? `<p style="margin: 4px 0 0 0; color: var(--muted); font-size: 14px;">${order.transportadora}</p>` : ''}
+          ${order.data_entrega ? `<p style="margin: 8px 0 0 0; font-size: 13px; color: var(--muted);">Entregue em ${formatDate(order.data_entrega)}</p>` : ''}
+        </div>
+        
+        <div style="background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+          <h3 style="margin: 0 0 8px 0; font-size: 14px; color: var(--muted);">Valor Total</h3>
+          <p style="margin: 0; font-weight: 800; font-size: 24px; color: var(--primary);">R$ ${formatPrice(order.valor_total)}</p>
+          <p style="margin: 8px 0 0 0; color: var(--muted); font-size: 14px;">Subtotal: R$ ${formatPrice(subtotal)}</p>
+          <p style="margin: 4px 0 0 0; color: var(--muted); font-size: 14px;">Frete: R$ ${formatPrice(order.frete)}</p>
+        </div>
+      </div>
+      
+      <div style="background: var(--card-bg); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+        <h2 style="margin: 0 0 20px 0;">Itens do Pedido</h2>
+        
+        ${items.map(item => `
+          <div style="display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border-color);">
+            <img src="${item.imagem || 'https://via.placeholder.com/80'}" 
+                 alt="${item.nome}" 
+                 style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; background: #0b1020;">
+            <div style="flex: 1;">
+              <h3 style="margin: 0 0 8px 0; font-size: 16px;">
+                <a href="produto1.html?id=${item.produto_id}" style="color: inherit; text-decoration: none;">
+                  ${item.nome}
+                </a>
+              </h3>
+              <p style="margin: 0; color: var(--muted); font-size: 14px;">Quantidade: ${item.quantidade}</p>
+              <p style="margin: 4px 0 0 0; color: var(--muted); font-size: 14px;">Preço unitário: R$ ${formatPrice(item.preco_no_momento)}</p>
+            </div>
+            <div style="text-align: right;">
+              <p style="margin: 0; font-weight: 700; font-size: 18px;">R$ ${formatPrice(item.preco_no_momento * item.quantidade)}</p>
+            </div>
+          </div>
+        `).join('')}
+        
+        ${items.length === 0 ? '<p style="color: var(--muted); text-align: center; padding: 20px 0;">Nenhum item no pedido</p>' : ''}
+      </div>
+    `;
+    
+    document.getElementById('loading').style.display = 'none';
+    container.style.display = 'block';
+  }
+  
+  // Carrega ao iniciar
+  document.addEventListener('DOMContentLoaded', loadOrderDetails);
+</script>
+
+</body>
+</html>

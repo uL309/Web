@@ -10,12 +10,17 @@
       
       if (data.logged_in && data.user) {
         // User is logged in - show personalized header
-        const { nome } = data.user;
+        const { nome, is_admin } = data.user;
         const firstName = nome.split(' ')[0];
+        
+        const adminButton = is_admin 
+          ? '<a href="admin-produtos.html"><button class="icon-btn" aria-label="Admin" style="color: var(--primary);">⚙️ Admin</button></a>'
+          : '';
         
         actionsDiv.innerHTML = `
           <a href="carrinho.html"><button class="icon-btn" aria-label="Carrinho">🛒 Carrinho</button></a>
           <a href="pedidos.html"><button class="icon-btn" aria-label="Meus Pedidos">📦 Pedidos</button></a>
+          ${adminButton}
           <button class="icon-btn" id="user-menu-btn" aria-label="Perfil">👤 ${firstName}</button>
           <button class="icon-btn" id="logout-btn" aria-label="Sair" style="color: var(--muted)">Sair</button>
         `;

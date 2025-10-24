@@ -15,16 +15,18 @@
 
   async function loadCart() {
     try {
-      const res = await fetch('php/cart.php');
+      const res = await fetch('php/cart.php?_=' + Date.now());
       const data = await res.json();
 
       loadingEl.style.display = 'none';
 
       if (!data.success || !data.items || data.items.length === 0) {
         emptyEl.style.display = 'block';
+        contentEl.style.display = 'none';
         return;
       }
 
+      emptyEl.style.display = 'none';
       contentEl.style.display = 'block';
       renderCart(data.items, data.total);
 
@@ -35,7 +37,7 @@
 
   function renderCart(items, subtotal) {
     itemsBody.innerHTML = items.map(item => `
-      <tr style="border-bottom:1px solid rgba(255,255,255,0.1)" data-item-id="${item.item_carrinho_id}">
+      <tr style="border-bottom:1px solid rgba(255,255,255,0.1)" data-item-id="${item.item_carrinho_id}" id="cart-item-${item.item_carrinho_id}">
         <td style="padding:12px">
           <div style="display: flex; align-items: center; gap: 12px;">
             ${item.imagem ? `<img src="${item.imagem}" style="width: 60px; height: 45px; object-fit: cover; border-radius: 4px;" alt="${item.nome}">` : ''}
@@ -50,9 +52,9 @@
         </td>
         <td style="padding:12px; text-align: center;" class="item-subtotal">${formatPrice(item.preco * item.quantidade)}</td>
         <td style="padding:12px; text-align: center;">
-          <button class="remove-btn" data-item-id="${item.item_carrinho_id}" 
-                  style="background:#ff3b00; border: 0; padding: 6px 12px; border-radius: 6px; cursor: pointer; color: white;">
-            ❌
+          <button type="button" class="remove-btn" data-item-id="${item.item_carrinho_id}" 
+                  style="background:#ef4444; border: 0; padding: 8px 16px; border-radius: 6px; cursor: pointer; color: white; font-weight: 600;">
+            Remover
           </button>
         </td>
       </tr>
@@ -60,13 +62,19 @@
 
     updateTotals(subtotal);
 
-    // Event listeners
+    // Event listeners para quantidade
     document.querySelectorAll('.qty-input').forEach(input => {
       input.addEventListener('change', (e) => updateQuantity(e.target));
     });
 
+    // Event listeners para remoção
     document.querySelectorAll('.remove-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => removeItem(e.target.dataset.itemId));
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = this.getAttribute('data-item-id');
+        removeItem(id);
+      });
     });
   }
 
@@ -111,24 +119,35 @@
   }
 
   async function removeItem(item_id) {
-    if (!confirm('Deseja remover este item do carrinho?')) return;
+    if (!item_id || item_id === 'undefined') {
+      alert('Erro: ID do item inválido');
+      return;
+    }
+    
+    if (!confirm('Deseja remover este item do carrinho?')) {
+      return;
+    }
+
+    const itemIdInt = parseInt(item_id);
 
     try {
       const res = await fetch('php/cart.php', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item_id: parseInt(item_id) })
+        body: JSON.stringify({ item_id: itemIdInt })
       });
 
       const data = await res.json();
+      
       if (!data.success) {
         alert(data.error || 'Erro ao remover item');
         return;
       }
 
-      loadCart();
+      await loadCart();
+      
     } catch (err) {
-      alert('Erro ao remover item');
+      alert('Erro ao remover item: ' + err.message);
     }
   }
 

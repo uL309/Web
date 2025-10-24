@@ -26,6 +26,8 @@
 
       <div class="actions">
         <a href="carrinho.html"><button class="icon-btn" aria-label="Carrinho">🛒 Carrinho</button></a>
+        <a href="pedidos.html"><button class="icon-btn" aria-label="Pedidos">📦 Pedidos</button></a>
+        <a href="admin-produtos.html" id="admin-btn" style="display: none;"><button class="icon-btn" aria-label="Admin" style="color: var(--primary);">⚙️ Admin</button></a>
         <a href="registro_cliente.html"><button class="icon-btn" aria-label="Registrar">Registrar</button></a>
         <a href="login.html"><button class="icon-btn" aria-label="Login">Entrar</button></a>
         <a href="#"><button class="icon-btn" aria-label="Perfil">👤</button></a>
@@ -175,15 +177,95 @@
   </div>
 </footer>
 
+  <script src="js/header.js"></script>
   <script>
-    document.querySelectorAll('.buy').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        btn.textContent = 'Adicionado ✓';
-        btn.disabled = true;
-        btn.style.opacity = '0.9';
-        setTimeout(()=>{btn.textContent = 'Adicionar ao carrinho';btn.disabled=false;btn.style.opacity='1'},2000);
+    // Carrega produtos do backend
+    async function loadProducts() {
+      try {
+        const res = await fetch('php/products.php?limit=6');
+        const data = await res.json();
+        
+        if (!data.success || !data.products || data.products.length === 0) {
+          console.warn('Nenhum produto retornado da API');
+          return;
+        }
+
+        const container = document.querySelector('.products');
+        if (!container) return;
+
+        container.innerHTML = data.products.map(p => `
+          <article class="card" aria-label="${p.nome}">
+            <img src="${p.imagem || 'https://http.cat/images/404.jpg'}" alt="${p.nome}" />
+            <a href="produto1.html?id=${p.produto_id}"><button class="icon-btn">${p.nome}</button></a>
+            <div><span class="price">R$ ${parseFloat(p.preco).toFixed(2).replace('.', ',')}</span></div>
+            <div style="font-size:13px;color:var(--muted);margin-top:6px">${p.estoque > 0 ? 'Em estoque' : 'Sem estoque'}</div>
+            <button class="buy" data-product-id="${p.produto_id}" ${p.estoque === 0 ? 'disabled' : ''}>
+              ${p.estoque > 0 ? 'Adicionar ao carrinho' : 'Indisponível'}
+            </button>
+          </article>
+        `).join('');
+
+        // Adiciona handlers para os botões de compra
+        attachCartHandlers();
+      } catch (err) {
+        console.error('Erro ao carregar produtos:', err);
+      }
+    }
+
+    // Adiciona produto ao carrinho
+    async function addToCart(productId) {
+      try {
+        const res = await fetch('php/cart.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ produto_id: productId, quantidade: 1 })
+        });
+
+        const data = await res.json();
+        
+        if (!data.success) {
+          alert(data.error || 'Erro ao adicionar ao carrinho');
+          return false;
+        }
+        
+        return true;
+      } catch (err) {
+        console.error('Erro ao adicionar ao carrinho:', err);
+        alert('Erro ao adicionar produto. Tente novamente.');
+        return false;
+      }
+    }
+
+    // Configura event listeners nos botões
+    function attachCartHandlers() {
+      document.querySelectorAll('.buy').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const productId = btn.dataset.productId;
+          if (!productId) return;
+
+          btn.disabled = true;
+          btn.textContent = 'Adicionando...';
+
+          const success = await addToCart(productId);
+
+          if (success) {
+            btn.textContent = 'Adicionado ✓';
+            btn.style.opacity = '0.9';
+            setTimeout(() => {
+              btn.textContent = 'Adicionar ao carrinho';
+              btn.disabled = false;
+              btn.style.opacity = '1';
+            }, 2000);
+          } else {
+            btn.textContent = 'Adicionar ao carrinho';
+            btn.disabled = false;
+          }
+        });
       });
-    });
+    }
+
+    // Carrega produtos ao iniciar a página
+    document.addEventListener('DOMContentLoaded', loadProducts);
   </script>
 </body>
 </html>

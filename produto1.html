@@ -62,35 +62,20 @@
       </div>
     </section>
 
-    <section style="margin-top:36px;">
+    <section style="margin-top:36px;" id="product-description">
       <h2>Descrição</h2>
-      <p>
-        A RTX 4070 oferece desempenho de ponta para jogos em 1440p e 4K. Com 12GB de memória GDDR6X, suporte a Ray Tracing e DLSS 3.0, você terá gráficos incrivelmente realistas e alta taxa de quadros. Ideal para gamers exigentes e criadores de conteúdo.
+      <p id="description-text" style="color:var(--muted);line-height:1.6">
+        Carregando descrição...
       </p>
     </section>
 
-    <section style="margin-top:24px;">
+    <section style="margin-top:24px;" id="product-specs">
       <h2>Especificações Técnicas</h2>
-      <table style="width:100%;border-collapse:collapse;margin-top:12px">
+      <table style="width:100%;border-collapse:collapse;margin-top:12px" id="specs-table">
         <tr style="border-bottom:1px solid rgba(255,255,255,0.1)">
-          <th style="text-align:left;padding:8px;color:var(--muted)">Modelo</th>
-          <td style="padding:8px">RTX 4070 12GB</td>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(255,255,255,0.1)">
-          <th style="text-align:left;padding:8px;color:var(--muted)">Memória</th>
-          <td style="padding:8px">12GB GDDR6X</td>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(255,255,255,0.1)">
-          <th style="text-align:left;padding:8px;color:var(--muted)">Interface</th>
-          <td style="padding:8px">PCIe 4.0</td>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(255,255,255,0.1)">
-          <th style="text-align:left;padding:8px;color:var(--muted)">Conectores</th>
-          <td style="padding:8px">HDMI 2.1, 3x DisplayPort</td>
-        </tr>
-        <tr>
-          <th style="text-align:left;padding:8px;color:var(--muted)">Consumo</th>
-          <td style="padding:8px">285W</td>
+          <td colspan="2" style="padding:12px;text-align:center;color:var(--muted)">
+            Carregando especificações...
+          </td>
         </tr>
       </table>
     </section>
@@ -128,15 +113,249 @@
   </div>
 </footer>
 
+  <script src="js/header.js"></script>
   <script>
-    document.querySelectorAll('.buy').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        btn.textContent = 'Adicionado ✓';
+    // Pega ID do produto da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id') || 1;
+
+    // Carrega produto do backend
+    async function loadProduct() {
+      try {
+        const res = await fetch(`php/product.php?id=${productId}`);
+        const data = await res.json();
+
+        if (!data.success || !data.product) {
+          alert('Produto não encontrado');
+          window.location.href = 'index.html';
+          return;
+        }
+
+        const product = data.product;
+        
+        // Atualiza título da página
+        document.title = `CiberTech - ${product.nome}`;
+
+        // Atualiza conteúdo
+        const detailSection = document.querySelector('.product-detail');
+        if (detailSection) {
+          detailSection.innerHTML = `
+            <div style="flex:1 1 320px;">
+              <img src="${product.imagem || 'https://http.cat/images/404.jpg'}" 
+                   alt="${product.nome}" style="width:100%;border-radius:12px;"/>
+            </div>
+            <div style="flex:1 1 400px;">
+              <h1>${product.nome}</h1>
+              <div style="margin:12px 0;">
+                <span class="price">R$ ${parseFloat(product.preco).toFixed(2).replace('.', ',')}</span>
+              </div>
+              <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">
+                ${product.estoque > 0 ? `Em estoque (${product.estoque} unidades)` : 'Sem estoque'} 
+                ${product.fabricante ? `• ${product.fabricante}` : ''}
+              </div>
+              <p style="margin-bottom:16px;color:var(--muted);">${product.descricao || ''}</p>
+              <button class="buy" data-product-id="${product.produto_id}" ${product.estoque === 0 ? 'disabled' : ''}>
+                ${product.estoque > 0 ? 'Adicionar ao carrinho' : 'Indisponível'}
+              </button>
+            </div>
+          `;
+
+          attachBuyHandler();
+          
+          // Atualiza descrição
+          updateDescription(product);
+          
+          // Carrega especificações (pode vir de uma tabela separada ou JSON)
+          loadSpecifications(product);
+          
+          // Carrega avaliações se disponíveis
+          if (data.reviews) {
+            loadReviews(data.reviews, data.rating);
+          }
+        }
+
+      } catch (err) {
+        console.error('Erro ao carregar produto:', err);
+        alert('Erro ao carregar produto');
+      }
+    }
+    
+    // Atualiza a descrição do produto
+    function updateDescription(product) {
+      const descText = document.getElementById('description-text');
+      if (descText && product.descricao) {
+        descText.textContent = product.descricao;
+      } else if (descText) {
+        descText.textContent = 'Descrição não disponível para este produto.';
+      }
+    }
+    
+    // Carrega especificações técnicas
+    function loadSpecifications(product) {
+      const specsTable = document.getElementById('specs-table');
+      if (!specsTable) return;
+      
+      // Especificações básicas que temos no banco
+      const specs = [];
+      
+      if (product.nome) {
+        specs.push(['Modelo', product.nome]);
+      }
+      
+      if (product.fabricante) {
+        specs.push(['Fabricante', product.fabricante]);
+      }
+      
+      if (product.sku) {
+        specs.push(['SKU', product.sku]);
+      }
+      
+      if (product.categoria_nome) {
+        specs.push(['Categoria', product.categoria_nome]);
+      }
+      
+      // Parse especificações do campo texto (formato: "key: value | key: value")
+      if (product.especificacoes) {
+        try {
+          const especText = product.especificacoes;
+          
+          // Tenta parsear como JSON primeiro
+          if (especText.trim().startsWith('{')) {
+            const extraSpecs = JSON.parse(especText);
+            for (const [key, value] of Object.entries(extraSpecs)) {
+              specs.push([key, value]);
+            }
+          } else {
+            // Parse formato "key: value | key: value"
+            const parts = especText.split('|').map(p => p.trim());
+            parts.forEach(part => {
+              const [key, value] = part.split(':').map(s => s.trim());
+              if (key && value) {
+                specs.push([key, value]);
+              }
+            });
+          }
+        } catch (e) {
+          // Se falhar, adiciona como texto único
+          specs.push(['Especificações', product.especificacoes]);
+        }
+      }
+      
+      if (product.estoque !== undefined) {
+        specs.push(['Disponibilidade', product.estoque > 0 ? `Em estoque (${product.estoque} unidades)` : 'Sem estoque']);
+      }
+      
+      if (specs.length === 0) {
+        specsTable.innerHTML = `
+          <tr>
+            <td colspan="2" style="padding:12px;text-align:center;color:var(--muted)">
+              Especificações técnicas não disponíveis
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
+      specsTable.innerHTML = specs.map(([label, value]) => `
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.1)">
+          <th style="text-align:left;padding:8px;color:var(--muted);width:40%">${label}</th>
+          <td style="padding:8px">${value}</td>
+        </tr>
+      `).join('');
+    }
+    
+    // Carrega avaliações do produto
+    function loadReviews(reviews, rating) {
+      const reviewsDiv = document.querySelector('.reviews');
+      if (!reviewsDiv) return;
+      
+      // Mostra média de avaliação
+      if (rating && rating.count > 0) {
+        const ratingHTML = `
+          <div style="background:rgba(255,255,255,0.05);padding:16px;border-radius:8px;margin-bottom:20px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="font-size:32px;font-weight:800">${rating.average.toFixed(1)}</div>
+              <div>
+                <div style="color:#ffd700">${'★'.repeat(Math.round(rating.average))}${'☆'.repeat(5-Math.round(rating.average))}</div>
+                <div style="font-size:13px;color:var(--muted)">${rating.count} avaliações</div>
+              </div>
+            </div>
+          </div>
+        `;
+        reviewsDiv.insertAdjacentHTML('beforebegin', ratingHTML);
+      }
+      
+      if (reviews.length === 0) {
+        reviewsDiv.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px">Ainda não há avaliações para este produto. Seja o primeiro a avaliar!</p>';
+        return;
+      }
+      
+      reviewsDiv.innerHTML = reviews.map(review => `
+        <div style="background:rgba(255,255,255,0.05);padding:16px;border-radius:8px;margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+            <strong>${review.usuario_nome || 'Cliente'}</strong>
+            <span style="color:#ffd700">${'★'.repeat(review.nota)}${'☆'.repeat(5-review.nota)}</span>
+          </div>
+          <p style="color:var(--muted);margin:0">${review.comentario}</p>
+          <small style="color:var(--muted);font-size:12px">${new Date(review.data_avaliacao).toLocaleDateString('pt-BR')}</small>
+        </div>
+      `).join('');
+    }
+
+    // Adiciona ao carrinho
+    async function addToCart(productId) {
+      try {
+        const res = await fetch('php/cart.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ produto_id: productId, quantidade: 1 })
+        });
+
+        const data = await res.json();
+        
+        if (!data.success) {
+          alert(data.error || 'Erro ao adicionar ao carrinho');
+          return false;
+        }
+        
+        return true;
+      } catch (err) {
+        console.error('Erro ao adicionar ao carrinho:', err);
+        alert('Erro ao adicionar produto. Tente novamente.');
+        return false;
+      }
+    }
+
+    // Configura handler do botão
+    function attachBuyHandler() {
+      const btn = document.querySelector('.buy');
+      if (!btn) return;
+
+      btn.addEventListener('click', async () => {
+        const productId = btn.dataset.productId;
+        if (!productId) return;
+
         btn.disabled = true;
-        btn.style.opacity = '0.9';
-        setTimeout(()=>{btn.textContent = 'Adicionar ao carrinho';btn.disabled=false;btn.style.opacity='1'},2000);
+        btn.textContent = 'Adicionando...';
+
+        const success = await addToCart(productId);
+
+        if (success) {
+          btn.textContent = 'Adicionado ✓';
+          btn.style.opacity = '0.9';
+          setTimeout(() => {
+            btn.textContent = 'Adicionar ao carrinho';
+            btn.disabled = false;
+            btn.style.opacity = '1';
+          }, 2000);
+        } else {
+          btn.textContent = 'Adicionar ao carrinho';
+          btn.disabled = false;
+        }
       });
-    });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProduct);
   </script>
 </body>
 </html>

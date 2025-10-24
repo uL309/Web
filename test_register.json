@@ -1,0 +1,10 @@
+{
+  "nome": "Teste Usuario",
+  "cpf": "12345678901",
+  "data_nascimento": "1990-01-01",
+  "telefone": "41999998888",
+  "endereco": "Rua Teste, 123",
+  "email": "teste@exemplo.com",
+  "senha": "senha123",
+  "confirmar_senha": "senha123"
+}

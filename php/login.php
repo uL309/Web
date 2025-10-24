@@ -18,7 +18,7 @@ if ($email === '' || $password === '') {
 
 try {
     $pdo = db();
-    $stmt = $pdo->prepare('SELECT cliente_id, nome, email, senha FROM cliente WHERE email = ? LIMIT 1');
+    $stmt = $pdo->prepare('SELECT cliente_id, nome, email, senha, is_admin FROM cliente WHERE email = ? LIMIT 1');
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
@@ -44,6 +44,7 @@ try {
         'id' => (int)$user['cliente_id'],
         'nome' => $user['nome'],
         'email' => $user['email'],
+        'is_admin' => (bool)$user['is_admin'],
         'logged_in_at' => time(),
     ];
 

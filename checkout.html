@@ -68,46 +68,108 @@
 
     <div class="hero-card">
       <h2>Informações de Pagamento</h2>
-      <form>
-        <div style="margin-bottom:12px;">
-          <label for="name">Nome no cartão</label><br>
-          <input type="text" id="name" name="name" placeholder="Nome completo" style="width:100%; padding:10px; border-radius:8px; border:0;">
-        </div>
-        <div style="margin-bottom:12px;">
-          <label for="card">Número do cartão</label><br>
-          <input type="text" id="card" name="card" placeholder="0000 0000 0000 0000" style="width:100%; padding:10px; border-radius:8px; border:0;">
-        </div>
-        <div style="display:flex; gap:10px; margin-bottom:12px;">
-          <div style="flex:1;">
-            <label for="expiry">Validade</label><br>
-            <input type="text" id="expiry" name="expiry" placeholder="MM/AA" style="width:100%; padding:10px; border-radius:8px; border:0;">
+      <form id="checkout-form">
+        
+        <!-- Seleção de Método de Pagamento -->
+        <div style="margin-bottom:20px;">
+          <label style="display:block;margin-bottom:8px;font-weight:600">Método de Pagamento</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <label style="display:flex;align-items:center;padding:12px;border:2px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;transition:all 0.3s" class="payment-option">
+              <input type="radio" name="payment_method" value="credit_card" checked style="margin-right:8px">
+              <span>💳 Cartão de Crédito</span>
+            </label>
+            <label style="display:flex;align-items:center;padding:12px;border:2px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;transition:all 0.3s" class="payment-option">
+              <input type="radio" name="payment_method" value="debit_card" style="margin-right:8px">
+              <span>💳 Cartão de Débito</span>
+            </label>
+            <label style="display:flex;align-items:center;padding:12px;border:2px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;transition:all 0.3s" class="payment-option">
+              <input type="radio" name="payment_method" value="pix" style="margin-right:8px">
+              <span>📱 PIX</span>
+            </label>
+            <label style="display:flex;align-items:center;padding:12px;border:2px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;transition:all 0.3s" class="payment-option">
+              <input type="radio" name="payment_method" value="boleto" style="margin-right:8px">
+              <span>🧾 Boleto</span>
+            </label>
           </div>
-          <div style="flex:1;">
-            <label for="cvv">CVV</label><br>
-            <input type="text" id="cvv" name="cvv" placeholder="123" style="width:100%; padding:10px; border-radius:8px; border:0;">
+        </div>
+
+        <!-- Campos de Cartão (mostrar apenas se cartão selecionado) -->
+        <div id="card-fields">
+          <div style="margin-bottom:12px;">
+            <label for="name">Nome no cartão</label><br>
+            <input type="text" id="name" name="name" placeholder="Nome completo" style="width:100%; padding:10px; border-radius:8px; border:0;background:#0b1020;color:#e6eef8">
+          </div>
+          <div style="margin-bottom:12px;">
+            <label for="card">Número do cartão</label><br>
+            <input type="text" id="card" name="card" placeholder="0000 0000 0000 0000" maxlength="19" style="width:100%; padding:10px; border-radius:8px; border:0;background:#0b1020;color:#e6eef8">
+          </div>
+          <div style="display:flex; gap:10px; margin-bottom:12px;">
+            <div style="flex:1;">
+              <label for="expiry">Validade</label><br>
+              <input type="text" id="expiry" name="expiry" placeholder="MM/AA" maxlength="5" style="width:100%; padding:10px; border-radius:8px; border:0;background:#0b1020;color:#e6eef8">
+            </div>
+            <div style="flex:1;">
+              <label for="cvv">CVV</label><br>
+              <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4" style="width:100%; padding:10px; border-radius:8px; border:0;background:#0b1020;color:#e6eef8">
+            </div>
+          </div>
+          
+          <!-- Parcelas (apenas para cartão de crédito) -->
+          <div style="margin-bottom:12px;" id="installments-field">
+            <label for="installments">Número de parcelas</label><br>
+            <select id="installments" name="installments" style="width:100%; padding:10px; border-radius:8px; border:0;background:#0b1020;color:#e6eef8">
+              <option value="1">1x à vista (sem juros)</option>
+              <option value="2">2x sem juros</option>
+              <option value="3">3x sem juros</option>
+              <option value="4">4x sem juros</option>
+              <option value="5">5x sem juros</option>
+              <option value="6">6x sem juros</option>
+              <option value="7">7x sem juros</option>
+              <option value="8">8x sem juros</option>
+              <option value="9">9x sem juros</option>
+              <option value="10">10x sem juros</option>
+              <option value="11">11x sem juros</option>
+              <option value="12">12x sem juros</option>
+            </select>
           </div>
         </div>
+
+        <!-- Informações PIX (oculto por padrão) -->
+        <div id="pix-info" style="display:none;margin-bottom:20px;padding:20px;background:rgba(255,255,255,0.05);border-radius:8px">
+          <p style="margin:0 0 12px;color:var(--muted)">Após finalizar o pedido, você receberá um código PIX para pagamento.</p>
+          <div style="font-size:13px;color:var(--muted)">
+            ✓ Pagamento instantâneo<br>
+            ✓ Confirmação em até 1 minuto<br>
+            ✓ Válido por 24 horas
+          </div>
+        </div>
+
+        <!-- Informações Boleto (oculto por padrão) -->
+        <div id="boleto-info" style="display:none;margin-bottom:20px;padding:20px;background:rgba(255,255,255,0.05);border-radius:8px">
+          <p style="margin:0 0 12px;color:var(--muted)">Após finalizar o pedido, você receberá o boleto para pagamento.</p>
+          <div style="font-size:13px;color:var(--muted)">
+            ✓ Válido por 3 dias úteis<br>
+            ✓ Confirmação em 1-2 dias úteis<br>
+            ✓ Sem juros
+          </div>
+        </div>
+
+        <!-- Endereço de Entrega -->
+        <div style="margin-bottom:20px;border-top:1px solid rgba(255,255,255,0.1);padding-top:20px">
+          <h3 style="margin:0 0 12px">Endereço de Entrega</h3>
+          <div style="margin-bottom:12px;">
+            <label for="cep">CEP</label><br>
+            <input type="text" id="cep" name="cep" placeholder="00000-000" maxlength="9" style="width:100%; padding:10px; border-radius:8px; border:0;background:#0b1020;color:#e6eef8">
+          </div>
+          <div style="margin-bottom:12px;">
+            <label for="address">Endereço completo</label><br>
+            <textarea id="address" name="address" placeholder="Rua, Número, Complemento, Bairro, Cidade - Estado" rows="3" style="width:100%; padding:10px; border-radius:8px; border:0;background:#0b1020;color:#e6eef8;resize:vertical"></textarea>
+          </div>
+        </div>
+
         <button type="submit" class="cta" style="width:100%;">Finalizar Compra</button>
       </form>
     </div>
-
-     <div style="margin-bottom:12px;">
-          <label for="installments">Número de parcelas</label><br>
-          <select name="installments" style="width:100%; padding:10px; border-radius:8px; border:0;">
-            <option value="1">1x (à vista)</option>
-            <option value="2">2x</option>
-            <option value="3">3x</option>
-            <option value="4">4x</option>
-            <option value="5">5x</option>
-            <option value="6">6x</option>
-            <option value="7">7x</option>
-            <option value="8">8x</option>
-            <option value="9">9x</option>
-            <option value="10">10x</option>
-            <option value="11">11x</option>
-            <option value="12">12x</option>
-          </select>
-        </div>
   </div>
 </main>
 
@@ -127,6 +189,168 @@
     </div>
   </div>
 </footer>
+
+<script src="js/header.js"></script>
+<script>
+  // Controla exibição dos campos conforme método de pagamento
+  function setupPaymentMethodToggle() {
+    const radioButtons = document.querySelectorAll('input[name="payment_method"]');
+    const cardFields = document.getElementById('card-fields');
+    const pixInfo = document.getElementById('pix-info');
+    const boletoInfo = document.getElementById('boleto-info');
+    const installmentsDiv = document.querySelector('[style*="margin-bottom:12px"]:has(#installments)');
+
+    radioButtons.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const method = e.target.value;
+        
+        // Esconde todos primeiro
+        if (cardFields) cardFields.style.display = 'none';
+        if (pixInfo) pixInfo.style.display = 'none';
+        if (boletoInfo) boletoInfo.style.display = 'none';
+        if (installmentsDiv) installmentsDiv.style.display = 'none';
+
+        // Mostra conforme seleção
+        if (method === 'credit_card') {
+          if (cardFields) cardFields.style.display = 'block';
+          if (installmentsDiv) installmentsDiv.style.display = 'block';
+        } else if (method === 'debit_card') {
+          if (cardFields) cardFields.style.display = 'block';
+        } else if (method === 'pix') {
+          if (pixInfo) pixInfo.style.display = 'block';
+        } else if (method === 'boleto') {
+          if (boletoInfo) boletoInfo.style.display = 'block';
+        }
+      });
+    });
+
+    // Define estado inicial (cartão de crédito selecionado)
+    const creditCardRadio = document.querySelector('input[value="credit_card"]');
+    if (creditCardRadio && creditCardRadio.checked) {
+      if (cardFields) cardFields.style.display = 'block';
+      if (installmentsDiv) installmentsDiv.style.display = 'block';
+    }
+  }
+
+  // Formata número do cartão
+  function formatCardNumber(input) {
+    let value = input.value.replace(/\s/g, '').replace(/\D/g, '');
+    let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+    input.value = formatted;
+  }
+
+  // Carrega resumo do carrinho
+  async function loadCartSummary() {
+    try {
+      const res = await fetch('php/cart.php');
+      const data = await res.json();
+
+      if (!data.success || !data.items || data.items.length === 0) {
+        alert('Seu carrinho está vazio!');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const summaryList = document.querySelector('.sidebar ul');
+      if (!summaryList) return;
+
+      const FRETE = 49.90;
+      const total = data.total + FRETE;
+
+      summaryList.innerHTML = data.items.map(item => `
+        <li style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span>${item.nome}</span> 
+          <span>R$ ${parseFloat(item.preco * item.quantidade).toFixed(2).replace('.', ',')}</span>
+        </li>
+      `).join('') + `
+        <li style="display:flex; justify-content:space-between; margin-bottom:8px; color:var(--muted)">
+          <span>Frete</span> <span>R$ ${FRETE.toFixed(2).replace('.', ',')}</span>
+        </li>
+        <li style="display:flex; justify-content:space-between; font-weight:800; margin-top:12px;">
+          <span>Total</span> <span>R$ ${total.toFixed(2).replace('.', ',')}</span>
+        </li>
+      `;
+
+    } catch (err) {
+      console.error('Erro ao carregar carrinho:', err);
+    }
+  }
+
+  // Processa o checkout
+  async function processCheckout(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    if (!submitBtn) return;
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processando...';
+
+    try {
+      const paymentMethod = form.payment_method?.value || 'credit_card';
+      
+      // Mapeia os valores do formulário para os valores esperados pelo PHP
+      const paymentMethodMap = {
+        'credit_card': 'credito',
+        'debit_card': 'debito',
+        'pix': 'pix',
+        'boleto': 'boleto'
+      };
+      
+      const formData = {
+        endereco_entrega: form.address?.value || '',
+        cep: form.cep?.value || '',
+        forma_pagamento: paymentMethodMap[paymentMethod] || 'credito',
+        parcelas: paymentMethod === 'credit_card' ? (form.installments?.value || '1') : '1',
+        frete: 49.90
+      };
+
+      const res = await fetch('php/checkout.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+
+      if (!data.success) {
+        alert(data.error || 'Erro ao processar pedido');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Finalizar Compra';
+        return;
+      }
+
+      alert('Pedido realizado com sucesso! Número do pedido: ' + data.pedido_id);
+      window.location.href = 'pedidos.html';
+
+    } catch (err) {
+      console.error('Erro no checkout:', err);
+      alert('Erro ao processar pedido. Tente novamente.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Finalizar Compra';
+    }
+  }
+
+  // Adiciona formatação ao número do cartão
+  const cardNumberInput = document.getElementById('card-number');
+  if (cardNumberInput) {
+    cardNumberInput.addEventListener('input', (e) => formatCardNumber(e.target));
+  }
+
+  // Adiciona handler ao formulário
+  const checkoutForm = document.querySelector('form');
+  if (checkoutForm) {
+    checkoutForm.addEventListener('submit', processCheckout);
+  }
+
+  // Inicializa ao carregar
+  document.addEventListener('DOMContentLoaded', () => {
+    setupPaymentMethodToggle();
+    loadCartSummary();
+  });
+</script>
 
 </body>
 </html>
