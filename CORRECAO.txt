@@ -1,0 +1,102 @@
+╔══════════════════════════════════════════════════════╗
+║  CORRECAO DO FILTRO DE CATEGORIAS - GUIA RAPIDO     ║
+╚══════════════════════════════════════════════════════╝
+
+PROBLEMA:
+  Filtro de categorias nao mostra todos os produtos
+
+CAUSA:
+  IDs no banco diferentes dos IDs no codigo
+
+SOLUCAO - ESCOLHA UMA OPCAO:
+
+╔══════════════════════════════════════════════════════╗
+║ OPCAO 1 - MySQL Workbench (MAIS FACIL)              ║
+╚══════════════════════════════════════════════════════╝
+
+  1. Abra MySQL Workbench
+  2. Conecte ao servidor
+  3. Menu: File > Open SQL Script
+  4. Selecione: fix_categories.sql
+  5. Clique no raio (Execute) ou Ctrl+Shift+Enter
+  6. Pronto! ✓
+
+
+╔══════════════════════════════════════════════════════╗
+║ OPCAO 2 - PowerShell (SE TEM MYSQL NO PATH)         ║
+╚══════════════════════════════════════════════════════╝
+
+  1. Abra PowerShell nesta pasta
+  2. Execute: .\fix_categorias.ps1
+  3. Siga as instrucoes
+  4. Pronto! ✓
+
+
+╔══════════════════════════════════════════════════════╗
+║ OPCAO 3 - Instrucoes Manuais                        ║
+╚══════════════════════════════════════════════════════╝
+
+  1. Execute: .\corrigir_manual.ps1
+  2. Siga as instrucoes na tela
+  3. Pronto! ✓
+
+
+╔══════════════════════════════════════════════════════╗
+║ OPCAO 4 - Reinstalar Tudo (LIMPA E RECRIA)          ║
+╚══════════════════════════════════════════════════════╝
+
+  1. Execute: .\install.ps1
+  2. Escolha "s" para criar/recriar banco
+  3. Escolha "s" para popular dados
+  4. Pronto! ✓
+
+
+╔══════════════════════════════════════════════════════╗
+║ TESTAR APOS CORRECAO                                 ║
+╚══════════════════════════════════════════════════════╝
+
+  1. Inicie servidor:
+     php -S localhost:8000
+
+  2. Acesse navegador:
+     http://localhost:8000/index.html
+
+  3. Clique em "Placas de Video"
+
+  4. Deve mostrar 3 produtos:
+     - NVIDIA RTX 4090
+     - AMD Radeon RX 7900 XTX
+     - NVIDIA RTX 4070 Ti
+
+  5. Teste outras categorias tambem!
+
+
+╔══════════════════════════════════════════════════════╗
+║ ARQUIVOS CRIADOS                                     ║
+╚══════════════════════════════════════════════════════╝
+
+  fix_categories.sql    - Script SQL de correcao
+  fix_categorias.ps1    - Script PowerShell
+  corrigir_manual.ps1   - Instrucoes manuais
+  FIX_CATEGORIAS.md     - Documentacao completa
+  LEIA-ME-PRIMEIRO.md   - Guia detalhado
+  CORRECAO.txt          - Este arquivo
+
+
+╔══════════════════════════════════════════════════════╗
+║ MAPEAMENTO DE IDs CORRETO                            ║
+╚══════════════════════════════════════════════════════╝
+
+  ID  | CATEGORIA
+  ----|------------------
+   5  | Placas de Video
+   6  | Processadores
+   7  | Placas-mae
+   8  | Memoria RAM
+  13  | SSD
+  14  | HD
+   3  | Monitores
+   2  | Perifericos
+
+
+Qualquer duvida, consulte: FIX_CATEGORIAS.md

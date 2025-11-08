@@ -2,23 +2,25 @@
 
 USE loja_hardware;
 
--- Categorias
-INSERT INTO categoria (nome, categoria_pai_id) VALUES
-('Componentes', NULL),
-('Periféricos', NULL),
-('Monitores', NULL),
-('Armazenamento', NULL);
+-- Categorias (usando IDs específicos para corresponder ao frontend)
+-- Categorias principais
+INSERT INTO categoria (categoria_id, nome, categoria_pai_id) VALUES
+(1, 'Componentes', NULL),
+(2, 'Periféricos', NULL),
+(3, 'Monitores', NULL),
+(4, 'Armazenamento', NULL);
 
-INSERT INTO categoria (nome, categoria_pai_id) VALUES
-('Placas de Vídeo', 1),
-('Processadores', 1),
-('Placas-mãe', 1),
-('Memória RAM', 1),
-('Teclados', 2),
-('Mouses', 2),
-('Headsets', 2),
-('SSD', 4),
-('HD', 4);
+-- Subcategorias com IDs específicos
+INSERT INTO categoria (categoria_id, nome, categoria_pai_id) VALUES
+(5, 'Placas de Vídeo', 1),
+(6, 'Processadores', 1),
+(7, 'Placas-mãe', 1),
+(8, 'Memória RAM', 1),
+(10, 'Teclados', 2),
+(11, 'Mouses', 2),
+(12, 'Headsets', 2),
+(13, 'SSD', 4),
+(14, 'HD', 4);
 
 -- Fornecedores
 INSERT INTO fornecedor (cnpj, nome, telefone, email, endereco) VALUES

@@ -19,8 +19,8 @@
       </div>
 
       <div class="search" role="search" aria-label="Busca de produtos">
-        <input type="search" placeholder="Procure por placa, fonte, gabinete, monitor..." aria-label="buscar produto" />
-        <button aria-label="Pesquisar">Buscar</button>
+        <input type="search" id="main-search" placeholder="Procure por placa, fonte, gabinete, monitor..." aria-label="buscar produto" />
+        <button id="search-btn" aria-label="Pesquisar">Buscar</button>
       </div>
 
       <div class="actions">
@@ -32,15 +32,14 @@
     </div>
 
    <div class="container" style="padding-bottom:10px">
-      <nav style="display:flex;gap:12px;align-items:center">
-        <a href="#">Placas-mãe</a>
-        <a href="#">Processadores</a>
-        <a href="#">Placas de vídeo</a>
-        <a href="#">Memória RAM</a>
-        <a href="#">SSD / HD</a>
-        <a href="#">Fontes</a>
-        <a href="#">Monitores</a>
-        <a href="#">Periféricos</a>
+      <nav style="display:flex;gap:12px;align-items:center" id="category-nav">
+        <a href="#" data-category="7">Placas-mãe</a>
+        <a href="#" data-category="6">Processadores</a>
+        <a href="#" data-category="5">Placas de vídeo</a>
+        <a href="#" data-category="8">Memória RAM</a>
+        <a href="#" data-category="13">SSD / HD</a>
+        <a href="#" data-category="3">Monitores</a>
+        <a href="#" data-category="2">Periféricos</a>
       </nav>
     </div>
   </header>

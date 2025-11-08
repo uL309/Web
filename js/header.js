@@ -1,7 +1,37 @@
-// Header user session management
+// Header user session management and search integration
 (() => {
   const actionsDiv = document.querySelector('.actions');
   if (!actionsDiv) return;
+
+  // Search functionality
+  const searchInput = document.getElementById('main-search');
+  const searchBtn = document.getElementById('search-btn');
+
+  if (searchBtn && searchInput) {
+    searchBtn.addEventListener('click', () => {
+      const query = searchInput.value.trim();
+      if (query) {
+        window.location.href = `busca.html?q=${encodeURIComponent(query)}`;
+      }
+    });
+
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        searchBtn.click();
+      }
+    });
+  }
+
+  // Category navigation
+  const categoryLinks = document.querySelectorAll('#category-nav a[data-category]');
+  categoryLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const catId = link.dataset.category;
+      window.location.href = `busca.html?categoria=${catId}`;
+    });
+  });
 
   async function checkSession() {
     try {
