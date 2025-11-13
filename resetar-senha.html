@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CiberTech - Redefinir Senha</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <!-- O cabeçalho (header) é idêntico ao de index.html -->
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">CT</div>
+        <div>
+          <a href="index.html"><button class="icon-btn" style="font-weight:800;">CiberTech</button></a>
+          <div style="font-size:12px;color:var(--muted)">Hardware • Periféricos • Promoções</div>
+        </div>
+      </div>
+      <div class="actions">
+        <a href="carrinho.html"><button class="icon-btn" aria-label="Carrinho">🛒 Carrinho</button></a>
+        <a href="registro_cliente.html"><button class="icon-btn" aria-label="Registrar">Registrar</button></a>
+        <a href="login.html"><button class="icon-btn" aria-label="Login">Entrar</button></a>
+      </div>
+    </div>
+</header>
+
+<main class="container" style="max-width: 500px; margin-top: 48px;">
+  <div class="hero-card">
+    <h1 style="text-align: center; margin-bottom: 24px;">Redefinir Senha</h1>
+    
+    <!-- Mensagem de Feedback -->
+    <div id="message-container" style="display: none; padding: 16px; margin-bottom: 24px; border-radius: 8px; font-weight: 600;"></div>
+
+    <form id="new-password-form">
+      <!-- Campos ocultos para token e email -->
+      <input type="hidden" id="token" name="token">
+      <input type="hidden" id="email" name="email">
+
+      <div style="margin-bottom: 16px;">
+        <label for="nova_senha" style="display: block; margin-bottom: 8px; font-weight: 600;">Nova Senha</label>
+        <input type="password" id="nova_senha" name="nova_senha" required
+               style="width: 100%; padding: 12px; border-radius: 8px; border: 0; background: #0b1020; color: #e6eef8;">
+      </div>
+      <div style="margin-bottom: 24px;">
+        <label for="confirmar_nova_senha" style="display: block; margin-bottom: 8px; font-weight: 600;">Confirmar Nova Senha</label>
+        <input type="password" id="confirmar_nova_senha" name="confirmar_nova_senha" required
+               style="width: 100%; padding: 12px; border-radius: 8px; border: 0; background: #0b1020; color: #e6eef8;">
+      </div>
+      <button type="submit" class="cta" style="width:100%;">Salvar Nova Senha</button>
+    </form>
+  </div>
+</main>
+
+<footer style="margin-top:48px">
+    <!-- O rodapé (footer) é idêntico ao de index.html -->
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('new-password-form');
+    const messageContainer = document.getElementById('message-container');
+    const btn = form.querySelector('button[type="submit"]');
+
+    // Função para exibir mensagens
+    function showMessage(message, isError = false) {
+        messageContainer.innerHTML = message;
+        messageContainer.style.backgroundColor = isError ? '#7f1d1d' : '#064e3b';
+        messageContainer.style.color = isError ? '#ef4444' : '#10b981';
+        messageContainer.style.display = 'block';
+    }
+
+    // 1. Pegar token e email da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const email = urlParams.get('email');
+
+    if (!token || !email) {
+        showMessage('Link de recuperação inválido ou incompleto.', true);
+        form.style.display = 'none';
+        return;
+    }
+
+    // 2. Preencher campos ocultos
+    document.getElementById('token').value = token;
+    document.getElementById('email').value = email;
+
+    // 3. Lidar com envio do formulário
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const novaSenha = document.getElementById('nova_senha').value;
+        const confirmarSenha = document.getElementById('confirmar_nova_senha').value;
+
+        if (novaSenha !== confirmarSenha) {
+            showMessage('As senhas não coincidem.', true);
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Salvando...';
+
+        try {
+            const res = await fetch('php/confirmar_reset.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    token: token,
+                    email: email,
+                    nova_senha: novaSenha
+                })
+            });
+            
+            const data = await res.json();
+            
+            if (!data.success) {
+                throw new Error(data.error || 'Token inválido ou expirado.');
+            }
+            
+            showMessage('Senha redefinida com sucesso! Você já pode fazer login.');
+            form.style.display = 'none';
+            
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 3000);
+
+        } catch (err) {
+            showMessage(`Erro: ${err.message}`, true);
+            btn.disabled = false;
+            btn.textContent = 'Salvar Nova Senha';
+        }
+    });
+});
+</script>
+</body>
+</html>
