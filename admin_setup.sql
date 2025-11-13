@@ -1,7 +1,12 @@
--- Adiciona campo is_admin na tabela cliente
+-- Este script adiciona os campos necessários à tabela `cliente`
+-- para o fluxo de recuperação de senha.
+-- Execute isso no seu banco de dados `loja_hardware`.
+
 USE loja_hardware;
 
-ALTER TABLE cliente ADD COLUMN is_admin BOOLEAN DEFAULT FALSE AFTER data_nascimento;
+ALTER TABLE `cliente`
+ADD COLUMN `reset_token` VARCHAR(64) NULL DEFAULT NULL AFTER `is_admin`,
+ADD COLUMN `reset_expires` DATETIME NULL DEFAULT NULL AFTER `reset_token`;
 
--- Define o primeiro cliente como admin (ajuste o ID conforme necessário)
--- UPDATE cliente SET is_admin = TRUE WHERE cliente_id = 1;
+-- Adiciona um índice para performance na busca do token
+CREATE INDEX `idx_reset_token` ON `cliente` (`reset_token`);
