@@ -15,7 +15,7 @@
 
   async function loadCart() {
     try {
-      const res = await fetch('php/cart.php?_=' + Date.now());
+      const res = await fetch('php/cart.php?_=' + Date.now()); //evita erro de cache
       const data = await res.json();
 
       loadingEl.style.display = 'none';
