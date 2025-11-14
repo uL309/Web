@@ -65,8 +65,8 @@
 
   // Atualizar URL
   function updateURL() {
-    const query = buildQuery();
-    window.history.replaceState({}, '', `busca.html?${query}`);
+    const query = buildQuery(); //q=...
+    window.history.replaceState({}, '', `busca.html?${query}`); //não regarega, mas muda a url
   }
 
   // Carregar produtos
